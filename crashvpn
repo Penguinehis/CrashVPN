@@ -1,0 +1,88 @@
+#!/bin/bash
+clear
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+tput setaf 7 ; tput setab 4 ; tput bold ; printf '%40s%s%-12s\n' "BEM VINDO AO CrashVPN MANAGER" ; tput sgr0
+echo -e "\033[1;31m════════════════════════════════════════════════════\033[0m"
+echo ""
+echo ""
+echo -ne "\033[1;36mINSTALAR? [N/S]: \033[1;37m"; read x
+[[ $x = @(n|N) ]] && exit
+sed -i 's/Port 22222/Port 22/g' /etc/ssh/sshd_config  > /dev/null 2>&1
+service ssh restart  > /dev/null 2>&1
+wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/Install/list > /dev/null 2>&1
+chmod +x list ./list > /dev/null 2>&1
+sleep 1s
+echo ""
+[[ -f "$HOME/usuarios.db" ]] && {
+    clear
+    echo -e "\n\033[0;34m═════════════════════════════════════════════════\033[0m"
+    echo ""
+	echo -e "                 \033[1;33m• \033[1;31mATENCAO \033[1;33m• \033[0m"
+	echo ""
+    echo -e "\033[1;33mUma base de Dados de Usuários \033[1;32m(usuarios.db) \033[1;33mFoi" 
+    echo -e "Encontrada! Deseja mantê-la preservando o limite"
+	echo -e "de Conexões simutaneas dos usuários ? Ou Deseja"
+    echo -e "criar uma nova base de dados ?\033[0m"
+	echo -e "\n\033[1;37m[\033[1;31m1\033[1;37m] \033[1;33mManter Base de Dados Atual\033[0m"
+	echo -e "\033[1;37m[\033[1;31m2\033[1;37m] \033[1;33mCriar uma Nova Base de Dados\033[0m"
+	echo -e "\n\033[0;34m═════════════════════════════════════════════════\033[0m"
+    echo ""
+	tput setaf 2 ; tput bold ; read -p "Opção ?: " -e -i 1 optiondb ; tput sgr0
+} || {
+	awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > $HOME/usuarios.db
+}
+[[ "$optiondb" = '2' ]] && awk -F : '$3 >= 500 { print $1 " 1" }' /etc/passwd | grep -v '^nobody' > $HOME/usuarios.db
+clear
+echo ""
+echo -e "          \033[1;33m[\033[1;31m!\033[1;33m] \033[1;32mINSTALANDO UPDATES \033[1;33m[\033[1;31m!\033[1;33m] \033[0m"
+echo ""
+fun_attlist () {
+    apt update -y && apt upgrade -y
+}
+fun_attlist
+clear
+echo ""
+echo -e "          \033[1;33m[\033[1;31m!\033[1;33m] \033[1;32mINSTALANDO PACOTES \033[1;33m[\033[1;31m!\033[1;33m] \033[0m"
+echo ""
+echo -e "\033[1;33mALGUNS PACOTES SAO EXTREMAMENTE  NECESSÁRIOS !\033[0m"
+echo ""
+inst_pct () {
+apt install bc -y 
+apt install screen -y 
+apt install nano -y 
+apt install unzip -y 
+apt install lsof -y 
+apt install netstat -y 
+apt install net-tools -y 
+apt install dos2unix -y 
+apt install nload -y 
+apt install jq -y 
+apt install curl -y 
+apt install figlet -y 
+apt install python3 -y 
+apt install python-pip -y 
+apt purge sslh -y 
+pip install speedtest-cli 
+}
+inst_pct
+[[ -f "/usr/sbin/ufw" ]] && ufw allow 443/tcp ; ufw allow 80/tcp ; ufw allow 3128/tcp ; ufw allow 8799/tcp ; ufw allow 8080/tcp
+clear
+echo ""
+echo -e "              \033[1;33m[\033[1;31m!\033[1;33m] \033[1;32mFINALIZANDO \033[1;33m[\033[1;31m!\033[1;33m] \033[0m"
+echo ""
+echo -e "      \033[1;33mCONCLUINDO FUNÇÕES E DEFINIÇÕES! \033[0m"
+echo ""
+./list
+rm crashvpn* > /dev/null 2>&1
+rm list* > /dev/null 2>&1
+rm versao* > /dev/null 2>&1
+echo "/bin/menu" > /bin/h && chmod +x /bin/h > /dev/null 2>&1
+wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/versao > /dev/null 2>&1
+clear
+echo ""
+cd $HOME
+echo -e "        \033[1;33m • \033[1;32mINSTALACAO CONCLUIDA\033[1;33m • \033[0m"
+echo ""
+echo -e "\033[1;31m \033[1;33mCOMANDO PRINCIPAL: \033[1;32mmenu\033[0m"
+echo -e "\033[1;33m MAIS INFORMACOES \033[1;31m(\033[1;36mTELEGRAM\033[1;31m): \033[1;37m@CrashVPN\033[0m"
+rm -rf $HOME/crashvpn && cat /dev/null > ~/.bash_history && history -c
