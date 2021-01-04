@@ -507,8 +507,8 @@ pipeline_prefetch off" >>$var_sqd
 				rm -rf stunnel.conf
 				rm -rf cert.cert
 				rm -rf key.key
-				wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/stunnelcerts/cert
-				wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/stunnelcerts/stunnel
+				wget https://raw.githubusercontent.com/Penguinehis/CrashVPN/main/stunnelcerts/cert
+				wget https://raw.githubusercontent.com/Penguinehis/CrashVPN/main/stunnelcerts/stunnel
 				mv cert cert.pem
 				mv stunnel stunnel.conf
 				chmod 777 cert.pem
@@ -585,8 +585,8 @@ pipeline_prefetch off" >>$var_sqd
 				cd /etc/stunnel/
 				rm -rf stunnel.conf
 				rm -rf stunnel.pem
-				wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/stunnelcerts/cert
-				wget http://sv.bigbolgames.com:8444/files/superuser/crashvpn/stunnelcerts/stunnel
+				wget https://raw.githubusercontent.com/Penguinehis/CrashVPN/main/stunnelcerts/cert
+				wget https://raw.githubusercontent.com/Penguinehis/CrashVPN/main/stunnelcerts/stunnel
 				mv cert cert.pem
 				mv stunnel stunnel.conf
 				chmod 777 cert.pem
